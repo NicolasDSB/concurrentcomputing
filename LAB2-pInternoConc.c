@@ -131,8 +131,8 @@ int main(int argc, char *argv[])
 
     // le o somatorio registrado no arquivo
     ret = fread(&pInterno_ori, sizeof(double), 1, arq);
-    printf("\npInterno_ori = %.26lf\n", pInterno_ori);
-
+    printf("pInterno_ori = %.26lf\n", pInterno_ori);
+    printf("erro: %f", (pInterno_ori/pInterno_par_global)/pInterno_ori);
     // desaloca os espacos de memoria
     free(vetorA);
     free(vetorB);
