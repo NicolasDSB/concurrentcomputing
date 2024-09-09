@@ -14,7 +14,7 @@ int linhas, colunas;                     // dimensoes da matriz
 long long int tam;                       // qtde de elementos na matriz
 int nthreads;                            // numero de threads
 
-void *PInternoFunc(void *tid)
+void *multMatriz(void *tid)
 {
     long int id = (long int)tid; // identificador da thread
     int ini, fim, bloco, aux;         // auxiliares para divisao da matriz em blocos
@@ -108,7 +108,7 @@ int main(int argc, char *argv[])
     // cria as threads
     for (long int i = 0; i < nthreads; i++)
     {
-        if (pthread_create(&tid_sistema[i], NULL, PInternoFunc, (void *)i))
+        if (pthread_create(&tid_sistema[i], NULL, multMatriz, (void *)i))
         {
             printf("--ERRO: pthread_create()\n");
             exit(-1);
