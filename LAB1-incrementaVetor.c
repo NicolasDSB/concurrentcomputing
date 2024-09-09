@@ -11,7 +11,7 @@ typedef struct {
    int idThread, mThreads, comeco, fim, *vetor, salto;
 } t_Args;
 //funcao executada pelas threads
-void *PrintHello (void *arg) {
+void *IncrementaVetor (void *arg) {
   t_Args *args = (t_Args *) arg;
   for(int i=args->comeco; i<args->fim; i++){
     args->vetor[i]++;
@@ -53,7 +53,7 @@ int main(int argc, char* argv[]) {
     args->comeco = (i-1) * salto;
     //a última thread fica com o resto se n/mthreads tiver resto
     args->fim = ((i)==(mthreads)) ? n : i*salto;
-    if (pthread_create(&tid_sistema[i-1], NULL, PrintHello, (void*) args)) {
+    if (pthread_create(&tid_sistema[i-1], NULL, IncrementaVetor, (void*) args)) {
       printf("--ERRO: pthread_create()\n"); 
       return 2;
     }
