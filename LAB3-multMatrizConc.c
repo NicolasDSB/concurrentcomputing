@@ -126,7 +126,7 @@ int main(int argc, char *argv[])
     }
     GET_TIME(finish);
     elapsed = finish - start;
-    printf("Levou %e segundos de execucao para multiplicar sequencialmente\n", elapsed);
+    printf("Levou %e segundos de execucao para multiplicar concorrentemente\n", elapsed);
     descritorArquivo = fopen(argv[2], "wb");
     if (!descritorArquivo)
     {
