@@ -57,21 +57,29 @@ void *t2(void *arg)
     printf("Thread : 2 mudou estado!\n");
     while (1)
     {
-        printf("%d %d \n", quebra, i);
-        if (i == quebra && j<10)
+        if (quebra == 0 && j < 10)
         {
             quebra = (2 * j) + 1;
             j++;
             buffer2[i] = '\n';
             i++;
         }
+        else if (j >= 10 && quebra == 0)
+        {
+            quebra = 10;
+            buffer2[i] = '\n';
+            i++;
+        }
+
         else
         {
             buffer2[i + j] = buffer[i];
             i++;
+            quebra--;
         }
-        if (i == N - 1 + j)
+        if (buffer2[i]== EOF)
         {
+            printf("oi");
             break;
         }
     }
@@ -146,3 +154,4 @@ int main(int argc, char *argv[])
 
     return 0;
 }
+
