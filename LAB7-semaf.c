@@ -47,39 +47,38 @@ void *t1(void *arg)
 // funcao executada pela thread 2
 void *t2(void *arg)
 {
-    buffer2 = (char *)malloc(sizeof(char) * N * N);
-    int i = 0, j = 1;
-    int quebra = 1;
     printf("Thread : 2 esta executando...\n");
 
     // espera a transicao para o estado 1
     sem_wait(&estado1);
+    buffer2 = (char *)malloc(sizeof(char) * 2 * N);
+    int i = 0;
+    j = 0;
+    int quebra = 1;
     printf("Thread : 2 mudou estado!\n");
     while (1)
     {
         if (quebra == 0 && j < 10)
         {
-            quebra = (2 * j) + 1;
             j++;
-            buffer2[i] = '\n';
-            i++;
+            quebra = (2 * j) + 1;
+            buffer2[i + j - 1] = '\n';
         }
         else if (j >= 10 && quebra == 0)
         {
             quebra = 10;
-            buffer2[i] = '\n';
+            buffer2[i + j] = '\n';
+            j++;
             i++;
         }
-
         else
         {
             buffer2[i + j] = buffer[i];
             i++;
             quebra--;
         }
-        if (buffer2[i]== EOF)
+        if (i == N + j)
         {
-            printf("oi");
             break;
         }
     }
@@ -93,20 +92,20 @@ void *t2(void *arg)
 void *t3(void *arg)
 {
     printf("Thread : 3 esta executando...\n");
-    int i = 0;
     // espera a transicao para o estado 2
     sem_wait(&estado2);
+    int i = 0;
     printf("Thread : 3 mudou estado!\n");
     while (1)
     {
-        if (i == N - 1 + j)
+        if (i == N + j)
         {
             break;
         }
         printf("%c", buffer2[i]);
         i++;
     }
-
+    printf("\n");
     printf("Thread : 3 terminou!\n");
     pthread_exit(NULL);
 }
@@ -151,7 +150,8 @@ int main(int argc, char *argv[])
             exit(-1);
         }
     }
-
+    free(buffer);
+    free(buffer2);
     return 0;
 }
 
